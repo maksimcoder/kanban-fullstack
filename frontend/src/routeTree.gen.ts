@@ -12,9 +12,8 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
-import { Route as deskDeskRouteImport } from './routes/(desk)/desk.route'
-import { Route as deskDeskIndexImport } from './routes/(desk)/desk.index'
-import { Route as deskDeskDeskIdImport } from './routes/(desk)/desk.$deskId'
+import { Route as boardBoardImport } from './routes/(board)/board'
+import { Route as boardBoardBoardIdImport } from './routes/(board)/board.$boardId'
 
 // Create/Update Routes
 
@@ -24,22 +23,16 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const deskDeskRouteRoute = deskDeskRouteImport.update({
-  id: '/(desk)/desk',
-  path: '/desk',
+const boardBoardRoute = boardBoardImport.update({
+  id: '/(board)/board',
+  path: '/board',
   getParentRoute: () => rootRoute,
 } as any)
 
-const deskDeskIndexRoute = deskDeskIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => deskDeskRouteRoute,
-} as any)
-
-const deskDeskDeskIdRoute = deskDeskDeskIdImport.update({
-  id: '/$deskId',
-  path: '/$deskId',
-  getParentRoute: () => deskDeskRouteRoute,
+const boardBoardBoardIdRoute = boardBoardBoardIdImport.update({
+  id: '/$boardId',
+  path: '/$boardId',
+  getParentRoute: () => boardBoardRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -53,89 +46,73 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/(desk)/desk': {
-      id: '/(desk)/desk'
-      path: '/desk'
-      fullPath: '/desk'
-      preLoaderRoute: typeof deskDeskRouteImport
+    '/(board)/board': {
+      id: '/(board)/board'
+      path: '/board'
+      fullPath: '/board'
+      preLoaderRoute: typeof boardBoardImport
       parentRoute: typeof rootRoute
     }
-    '/(desk)/desk/$deskId': {
-      id: '/(desk)/desk/$deskId'
-      path: '/$deskId'
-      fullPath: '/desk/$deskId'
-      preLoaderRoute: typeof deskDeskDeskIdImport
-      parentRoute: typeof deskDeskRouteImport
-    }
-    '/(desk)/desk/': {
-      id: '/(desk)/desk/'
-      path: '/'
-      fullPath: '/desk/'
-      preLoaderRoute: typeof deskDeskIndexImport
-      parentRoute: typeof deskDeskRouteImport
+    '/(board)/board/$boardId': {
+      id: '/(board)/board/$boardId'
+      path: '/$boardId'
+      fullPath: '/board/$boardId'
+      preLoaderRoute: typeof boardBoardBoardIdImport
+      parentRoute: typeof boardBoardImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface deskDeskRouteRouteChildren {
-  deskDeskDeskIdRoute: typeof deskDeskDeskIdRoute
-  deskDeskIndexRoute: typeof deskDeskIndexRoute
+interface boardBoardRouteChildren {
+  boardBoardBoardIdRoute: typeof boardBoardBoardIdRoute
 }
 
-const deskDeskRouteRouteChildren: deskDeskRouteRouteChildren = {
-  deskDeskDeskIdRoute: deskDeskDeskIdRoute,
-  deskDeskIndexRoute: deskDeskIndexRoute,
+const boardBoardRouteChildren: boardBoardRouteChildren = {
+  boardBoardBoardIdRoute: boardBoardBoardIdRoute,
 }
 
-const deskDeskRouteRouteWithChildren = deskDeskRouteRoute._addFileChildren(
-  deskDeskRouteRouteChildren,
+const boardBoardRouteWithChildren = boardBoardRoute._addFileChildren(
+  boardBoardRouteChildren,
 )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/desk': typeof deskDeskRouteRouteWithChildren
-  '/desk/$deskId': typeof deskDeskDeskIdRoute
-  '/desk/': typeof deskDeskIndexRoute
+  '/board': typeof boardBoardRouteWithChildren
+  '/board/$boardId': typeof boardBoardBoardIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/desk/$deskId': typeof deskDeskDeskIdRoute
-  '/desk': typeof deskDeskIndexRoute
+  '/board': typeof boardBoardRouteWithChildren
+  '/board/$boardId': typeof boardBoardBoardIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/(desk)/desk': typeof deskDeskRouteRouteWithChildren
-  '/(desk)/desk/$deskId': typeof deskDeskDeskIdRoute
-  '/(desk)/desk/': typeof deskDeskIndexRoute
+  '/(board)/board': typeof boardBoardRouteWithChildren
+  '/(board)/board/$boardId': typeof boardBoardBoardIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/desk' | '/desk/$deskId' | '/desk/'
+  fullPaths: '/' | '/board' | '/board/$boardId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/desk/$deskId' | '/desk'
-  id:
-    | '__root__'
-    | '/'
-    | '/(desk)/desk'
-    | '/(desk)/desk/$deskId'
-    | '/(desk)/desk/'
+  to: '/' | '/board' | '/board/$boardId'
+  id: '__root__' | '/' | '/(board)/board' | '/(board)/board/$boardId'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  deskDeskRouteRoute: typeof deskDeskRouteRouteWithChildren
+  boardBoardRoute: typeof boardBoardRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  deskDeskRouteRoute: deskDeskRouteRouteWithChildren,
+  boardBoardRoute: boardBoardRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -149,26 +126,21 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/(desk)/desk"
+        "/(board)/board"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/(desk)/desk": {
-      "filePath": "(desk)/desk.route.tsx",
+    "/(board)/board": {
+      "filePath": "(board)/board.tsx",
       "children": [
-        "/(desk)/desk/$deskId",
-        "/(desk)/desk/"
+        "/(board)/board/$boardId"
       ]
     },
-    "/(desk)/desk/$deskId": {
-      "filePath": "(desk)/desk.$deskId.tsx",
-      "parent": "/(desk)/desk"
-    },
-    "/(desk)/desk/": {
-      "filePath": "(desk)/desk.index.tsx",
-      "parent": "/(desk)/desk"
+    "/(board)/board/$boardId": {
+      "filePath": "(board)/board.$boardId.tsx",
+      "parent": "/(board)/board"
     }
   }
 }

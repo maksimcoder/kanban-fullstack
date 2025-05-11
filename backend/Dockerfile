@@ -1,32 +1,17 @@
-# FROM node:22.15-alpine
-# WORKDIR /app
-# COPY package.json /app
-# RUN npm install
-# COPY . /app
-# CMD ["node","app.js"]
+# используем Node.js 22.15 как базу
+FROM node:22.15-alpine
 
-#Build stage
-FROM node:22.15-alpine AS build
+# рабочая папка внутри контейнера
+WORKDIR /usr/src/app
 
-WORKDIR /app
-
-COPY package*.json .
-
+# копируем только package-файлы и сразу ставим зависимости
+COPY package*.json ./
 RUN npm install
 
+# копируем весь код (но в dev‑режиме мы потом его перемонтируем volume)
 COPY . .
 
-RUN npm run build
+# открываем порт, на котором слушает Express
+EXPOSE 3001
 
-#Production stage
-FROM node:22.15-alpine AS production
-
-WORKDIR /app
-
-COPY package*.json .
-
-RUN npm ci --only=production
-
-COPY --from=build /app/dist ./dist
-
-CMD ["node", "dist/index.js"]
+CMD ["npm", "run", "dev"]

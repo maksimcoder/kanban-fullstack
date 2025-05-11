@@ -1,8 +1,0 @@
-services:
- backend:
-  build:
-   context: ./backend
-   target: production
-
-  ports:
-   - 3001:3001

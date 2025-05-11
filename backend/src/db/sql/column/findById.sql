@@ -1,0 +1,1 @@
+SELECT * FROM columns WHERE id = $1

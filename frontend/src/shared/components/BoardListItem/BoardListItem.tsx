@@ -7,12 +7,14 @@ interface IDeskListItemProps {
 	title: string;
 	isActive?: boolean;
 	isAddBtn?: boolean;
+	onClick: () => void;
 }
 
 export const BoardListItem: FC<IDeskListItemProps> = ({
 	title,
 	isActive,
 	isAddBtn,
+	onClick,
 }) => {
 	const iconColor = isAddBtn ? '#635FC7' : undefined;
 	function defineTextVariant() {
@@ -26,6 +28,7 @@ export const BoardListItem: FC<IDeskListItemProps> = ({
 		<BoardListItemContainer
 			variant={isActive ? 'active' : 'default'}
 			className='board-list-item'
+			onClick={onClick}
 		>
 			<BoardIcon fill={iconColor} />
 			<BoardListItemText

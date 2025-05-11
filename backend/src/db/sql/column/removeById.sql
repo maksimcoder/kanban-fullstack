@@ -1,0 +1,1 @@
+DELETE FROM columns WHERE id = $1
